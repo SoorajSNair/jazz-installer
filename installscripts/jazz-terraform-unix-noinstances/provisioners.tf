@@ -44,28 +44,28 @@ resource "null_resource" "configureExistingJenkinsServer" {
 
 
   provisioner "local-exec" {
-    command = "${var.modifyPropertyFile_cmd} JENKINS_USERNAME ${lookup(var.jenkinsservermap, "jenkinsuser")} ${var.jenkinspropsfile}"
+    command = "${var.modifyPropertyFile_cmd} JENKINS_USERNAME ${lookup(var.jenkinsservermap, "jenkinsuser")} ${var.jenkinspropsfile} ${var.jenkinsjsonpropsfile}"
   }
   provisioner "local-exec" {
-    command = "${var.modifyPropertyFile_cmd} JENKINS_PASSWORD ${lookup(var.jenkinsservermap, "jenkinspasswd")} ${var.jenkinspropsfile}"
+    command = "${var.modifyPropertyFile_cmd} JENKINS_PASSWORD ${lookup(var.jenkinsservermap, "jenkinspasswd")} ${var.jenkinspropsfile} ${var.jenkinsjsonpropsfile}"
   }
   provisioner "local-exec" {
-    command = "${var.modifyPropertyFile_cmd} BITBUCKET_USERNAME ${lookup(var.bitbucketservermap, "bitbucketuser")} ${var.jenkinspropsfile}"
+    command = "${var.modifyPropertyFile_cmd} BITBUCKET_USERNAME ${lookup(var.bitbucketservermap, "bitbucketuser")} ${var.jenkinspropsfile} ${var.jenkinsjsonpropsfile}"
   }
   provisioner "local-exec" {
-    command = "${var.modifyPropertyFile_cmd} BITBUCKET_PASSWORD ${lookup(var.bitbucketservermap, "bitbucketpasswd")} ${var.jenkinspropsfile}"
+    command = "${var.modifyPropertyFile_cmd} BITBUCKET_PASSWORD ${lookup(var.bitbucketservermap, "bitbucketpasswd")} ${var.jenkinspropsfile} ${var.jenkinsjsonpropsfile}"
   }
   provisioner "local-exec" {
-    command = "${var.modifyPropertyFile_cmd} JAZZ_ADMIN ${var.cognito_pool_username} ${var.jenkinspropsfile}"
+    command = "${var.modifyPropertyFile_cmd} JAZZ_ADMIN ${var.cognito_pool_username} ${var.jenkinspropsfile} ${var.jenkinsjsonpropsfile}"
   }
   provisioner "local-exec" {
-  command = "${var.modifyPropertyFile_cmd} JAZZ_PASSWD ${var.cognito_pool_password} ${var.jenkinspropsfile}"
+  command = "${var.modifyPropertyFile_cmd} JAZZ_PASSWD ${var.cognito_pool_password} ${var.jenkinspropsfile} ${var.jenkinsjsonpropsfile}"
   }
   provisioner "local-exec" {
-  command = "${var.modifyPropertyFile_cmd} jazz_accountid ${var.jazz_accountid} ${var.jenkinspropsfile}"
+  command = "${var.modifyPropertyFile_cmd} jazz_accountid ${var.jazz_accountid} ${var.jenkinspropsfile} ${var.jenkinsjsonpropsfile}"
   }
   provisioner "local-exec" {
-  command = "${var.modifyPropertyFile_cmd} jazz_region ${var.region} ${var.jenkinspropsfile}"
+  command = "${var.modifyPropertyFile_cmd} jazz_region ${var.region} ${var.jenkinspropsfile} ${var.jenkinsjsonpropsfile}"
   }
 
   provisioner "file" {
@@ -129,5 +129,28 @@ resource "null_resource" "configureExistingBitbucketServer" {
   provisioner "local-exec" {
     command = "${var.bitbucketclient_cmd} ${var.region} ${lookup(var.bitbucketservermap, "bitbucketuser")} ${lookup(var.bitbucketservermap, "bitbucketpasswd")} ${lookup(var.jenkinsservermap, "jenkinsuser")} ${lookup(var.jenkinsservermap, "jenkinspasswd")}"
   }
+
+resource "null_resource" "configurejazzbuildmodule" {
+
+ depends_on = ["null_resource.configureExistingBitbucketServer"]
+
+ connection {
+   host = "${lookup(var.jenkinsservermap, "jenkins_public_ip")}"
+   user = "${lookup(var.jenkinsservermap, "jenkins_ssh_login")}"
+   type = "ssh"
+   private_key = "${file("${lookup(var.jenkinsservermap, "jenkins_ssh_key")}")}"
+ }
+   provisioner "remote-exec"{
+   inline = [
+       "git clone http://${lookup(var.bitbucketservermap, "bitbucketuser")}:${lookup(var.bitbucketservermap, "bitbucketpasswd")}@${lookup(var.bitbucketservermap, "bitbucket_elb")}/scm/slf/jazz-build-module.git",
+       "cd jazz-build-module",
+       "cp ~/cookbooks/jenkins/files/node/jazz-installer-vars.json .",
+       "git add jazz-installer-vars.json",
+       "git commit -m 'Adding Json file to repo'",
+       "git push -u origin master",
+       "cd ..",
+       "sudo rm -rf jazz-build-module" ]
+ }
+ }
 
 }
