@@ -3,10 +3,12 @@ SSH_USER=$2
 
 if [ -f /etc/redhat-release ]; then
   JENKINS_PROPFILE=/home/$SSH_USER/cookbooks/jenkins/files/node/jenkins-conf.properties
+  JENKINS_JSON_PROPFILE=/home/$SSH_USER/cookbooks/jenkins/files/node/jazz-intaller-vars.json
   AUTHFILE=/home/$SSH_USER/cookbooks/jenkins/files/default/authfile
   JENKINS_CLI=/home/$SSH_USER/jenkins-cli.jar
 elif [ -f /etc/lsb-release ]; then
   JENKINS_PROPFILE=/root/cookbooks/jenkins/files/node/jenkins-conf.properties
+  JENKINS_JSON_PROPFILE=/home/$SSH_USER/cookbooks/jenkins/files/node/jazz-intaller-vars.json
   AUTHFILE=/root/cookbooks/jenkins/files/default/authfile
   JENKINS_CLI=/root/jenkins-cli.jar
 fi
