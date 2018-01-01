@@ -129,6 +129,7 @@ resource "null_resource" "configureExistingBitbucketServer" {
   provisioner "local-exec" {
     command = "${var.bitbucketclient_cmd} ${var.region} ${lookup(var.bitbucketservermap, "bitbucketuser")} ${lookup(var.bitbucketservermap, "bitbucketpasswd")} ${lookup(var.jenkinsservermap, "jenkinsuser")} ${lookup(var.jenkinsservermap, "jenkinspasswd")}"
   }
+}
 
 resource "null_resource" "configurejazzbuildmodule" {
 
@@ -151,6 +152,6 @@ resource "null_resource" "configurejazzbuildmodule" {
        "cd ..",
        "sudo rm -rf jazz-build-module" ]
  }
- }
-
 }
+
+
