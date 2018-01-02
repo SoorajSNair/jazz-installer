@@ -18,5 +18,5 @@ sed -i "s/jazz_bucket_web.*.$/jazz_bucket_web=$jazz_bucket_web/g" $jenkinspropsf
 sed -i "s/jazz_bucket_dev\".*.$/jazz_bucket_dev\": \"$jazz_bucket_dev\",/g" $jenkinsjsonpropsfile
 sed -i "s/jazz_bucket_stg\".*.$/jazz_bucket_stg\": \"$jazz_bucket_stg\",/g" $jenkinsjsonpropsfile
 sed -i "s/jazz_bucket_prod\".*.$/jazz_bucket_prod\": \"$jazz_bucket_prod\",/g" $jenkinsjsonpropsfile
-sed -i "s/jazz_bucket_cloudfrontlogs\".*.$/jazz_bucket_cloudfrontlogs\": \"$jazz_bucket_cloudfrontlogs\",/g" $jenkinsjosnpropsfile
+sed -i "s/jazz_bucket_cloudfrontlogs\".*.$/jazz_bucket_cloudfrontlogs\": \"$jazz_bucket_cloudfrontlogs\",/g" $jenkinsjsonpropsfile
 sed -i "s/jazz_bucket_web\".*.$/jazz_bucket_web\": \"$jazz_bucket_web\"/g" $jenkinsjsonpropsfile
