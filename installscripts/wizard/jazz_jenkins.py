@@ -89,7 +89,7 @@ def get_and_add_existing_jenkins_config(terraform_folder):
 
     #Get Existing Jenkins Details form user
     print "\nPlease provide Jenkins Details.."
-    jenkins_server_elb = raw_input("Jenkins URL (Please ignore http and port number from URL) :")
+    jenkins_server_elb = raw_input("Jenkins URL (Please add port number) :")
     jenkins_username = raw_input("Jenkins username :")
     jenkins_passwd = raw_input("Jenkins password :")
 

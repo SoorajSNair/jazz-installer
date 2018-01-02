@@ -65,7 +65,7 @@ def get_and_add_existing_bitbucket_config(terraform_folder):
 
     #Get Existing Bitbucket Details form user
     print "\nPlease provide Bitbucket Details.."
-    bitbucket_server_elb = raw_input("Bitbucket URL (Please ignore http and port number from URL) :")
+    bitbucket_server_elb = raw_input("Bitbucket URL (Please add port number) :")
     bitbucket_username = raw_input("Bitbucket username :")
     bitbucket_passwd = raw_input("Bitbucket password :")
     
