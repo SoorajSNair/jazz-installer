@@ -54,8 +54,8 @@ def start(parameter_list):
     #All variables are set and ready to call terraform
     os.chdir(TERRAFORM_FOLDER_PATH)
 
-    subprocess.call('nohup ./scripts/create.sh >>../../stack_creation.out&',shell=True)
-    subprocess.call('cp ./scripts/destroy.sh ../../'.split(' '))
+    #subprocess.call('nohup ./scripts/create.sh >>../../stack_creation.out&',shell=True)
+    #subprocess.call('cp ./scripts/destroy.sh ../../'.split(' '))
 
     print("\n\nPlease execute  tail -f stack_creation.out | grep 'Creation complete' in the below directory to see the stack creation progress ")
     print(os.path.realpath('../../'))

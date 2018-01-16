@@ -32,7 +32,8 @@ def get_aws_credentials():
     """
     aws_access_key = raw_input("AWS Access Key ID :")
     aws_secret_key = raw_input("AWS Secret Access Key :")
-    return [aws_access_key, aws_secret_key]
+    region = raw_input("AWS Region :")
+    return [aws_access_key, aws_secret_key, region]
 
 def write_aws_credential_to_file(aws_access_key, aws_secret_key):
     """
@@ -83,8 +84,7 @@ def get_jazz_tag_config_details():
     return [tag_env_prefix, tag_enviornment, tag_exempt, tag_owner]
 
 def get_stack_generic_details(jazz_branch):
-    region = 'us-east-1'
-
+    
     print ""
     print("Please provide the details to setup Jazz")
 
@@ -95,7 +95,7 @@ def get_stack_generic_details(jazz_branch):
         aws_credentials = get_aws_credentials()
 
     write_aws_credential_to_file(aws_credentials[0], aws_credentials[1])
-    write_aws_config_to_file(region)
+    write_aws_config_to_file(aws_credentials[2])
 
     # get Jazz Tag details
     jazz_tag_details = get_jazz_tag_config_details()
