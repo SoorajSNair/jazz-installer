@@ -2,7 +2,7 @@
 # The following variable default value would be overwritten
 # Hence its added as one line
 #
-variable "region" { type = "string" default = "us-east-1" }
+variable "region" { type = "string" default = "region" }
 variable "github_branch" { type = "string" default = "development" }
 variable "aws_access_key" { type = "string" default = "aws_access_key" }
 variable "aws_secret_key" { type = "string" default = "aws_secret_key" }
